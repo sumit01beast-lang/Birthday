@@ -3,246 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎂 Happy Birthday Jaggu 🎉</title>
+<title>🎉 Happy Birthday Jagriti (Jaggu)! 🎉</title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-        font-family: 'Comic Sans MS', cursive;
-        text-align: center;
-        overflow: hidden;
-    }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Sans MS', cursive;
+    background: linear-gradient(135deg, #ffd6ec, #c7e9ff);
+    overflow: hidden;
+    text-align: center;
+  }
 
-    canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 0;
-    }
+  h1 {
+    font-size: 2.5em;
+    color: #ff4da6;
+    margin-top: 40px;
+    animation: pop 1s ease-in-out infinite alternate;
+  }
 
-    h1 {
-        color: #ff007f;
-        font-size: 2.5em;
-        margin-top: 70px;
-        z-index: 2;
-        position: relative;
-    }
+  h2 {
+    color: #ff66b2;
+    font-size: 1.5em;
+  }
 
-    p {
-        font-size: 1.1em;
-        z-index: 2;
-        position: relative;
-    }
+  @keyframes pop {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+  }
 
-    #startBtn {
-        background-color: #ff4da6;
-        color: white;
-        padding: 12px 25px;
-        border: none;
-        border-radius: 25px;
-        font-size: 18px;
-        cursor: pointer;
-        margin-top: 30px;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-        transition: transform 0.2s;
-        z-index: 2;
-        position: relative;
-    }
-    #startBtn:hover {
-        transform: scale(1.1);
-    }
+  .balloon {
+    width: 80px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ff99cc, #ff4da6);
+    position: absolute;
+    cursor: pointer;
+    animation: float 6s ease-in infinite;
+  }
 
-    #gameArea {
-        display: none;
-        margin-top: 30px;
-        z-index: 2;
-        position: relative;
-    }
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-120vh) rotate(360deg); }
+  }
 
-    .balloon {
-        width: 70px;
-        height: 90px;
-        background-color: pink;
-        border-radius: 50%;
-        display: inline-block;
-        margin: 15px;
-        position: relative;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
+  .hidden {
+    display: none;
+  }
 
-    .balloon:hover {
-        transform: scale(1.1);
-    }
+  #message {
+    font-size: 1.3em;
+    color: #ff4081;
+    margin: 20px;
+    animation: fadeIn 2s ease-in-out forwards;
+  }
 
-    .balloon::after {
-        content: '';
-        width: 4px;
-        height: 20px;
-        background-color: #333;
-        position: absolute;
-        bottom: -20px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-    #message {
-        display: none;
-        color: #ff1493;
-        font-size: 1.5em;
-        padding: 20px;
-        margin-top: 20px;
-        animation: fadeIn 2s ease-in-out;
-        position: relative;
-        z-index: 2;
-    }
+  img {
+    width: 180px;
+    margin: 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
 
-    #cake {
-        display: none;
-        font-size: 60px;
-        margin-top: 15px;
-        z-index: 2;
-        position: relative;
-        animation: bounce 1.2s infinite alternate;
-    }
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: #ffb6c1;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    animation: fall 3s linear infinite;
+  }
 
-    @keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity: 1;}
-    }
-
-    @keyframes bounce {
-        0% {transform: translateY(0);}
-        100% {transform: translateY(-15px);}
-    }
+  @keyframes fall {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
+  }
 </style>
 </head>
 <body>
 
-<canvas id="sparkles"></canvas>
+<h1>🎈 Pop the Balloons to Start the Party 🎈</h1>
+<div id="balloon-container"></div>
 
-<h1>🎉 Happy Birthday, Jaggu! 🎉</h1>
-<p>Click below to start the fun and pop the balloons 🎈</p>
-<button id="startBtn">Start Party 🎊</button>
+<div id="birthday-content" class="hidden">
+  <h1>🎉 Happy Birthday Jagriti (Jaggu)! 🎉</h1>
+  <h2>💖 You’re such a wonderful friend! 💖</h2>
+  <p id="message">Happy Birthday Jaggu and thank you hamesha sath dene ke liye aur help karne ke liye. Enjoy your life to the fullest! You truly make every moment brighter! 🌸🎂💞</p>
+  
+  <img src="https://raw.githubusercontent.com/sumit01beast-lang/Birthday/main/cake.png" alt="Cake">
+  <img src="https://raw.githubusercontent.com/sumit01beast-lang/Birthday/main/flowers.png" alt="Flowers">
+  <img src="https://raw.githubusercontent.com/sumit01beast-lang/Birthday/main/plush.png" alt="Plush">
 
-<div id="gameArea"></div>
-<div id="cake">🎂</div>
-<div id="message">
-    💖 Happy Birthday Jaggu and thank you hamesha sath dene ke liye or help karne ke liye 💖<br>
-    🎂 Enjoy your life to the fullest! 🎂<br>
-    🎊 You’re the sweetest friend ever! 🎊
+  <div id="confetti-container"></div>
 </div>
 
-<audio id="music" preload="auto" src="https://files.catbox.moe/3iklgq.mp3"></audio>
+<audio id="birthday-song" loop autoplay>
+  <source src="https://cdn.pixabay.com/audio/2022/05/31/audio_6e79b7a8d2.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-    const startBtn = document.getElementById("startBtn");
-    const gameArea = document.getElementById("gameArea");
-    const message = document.getElementById("message");
-    const music = document.getElementById("music");
-    const cake = document.getElementById("cake");
-    const canvas = document.getElementById("sparkles");
-    const ctx = canvas.getContext("2d");
+const balloonContainer = document.getElementById("balloon-container");
+const totalBalloons = 5;
+let popped = 0;
 
-    let popped = 0;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+for (let i = 0; i < totalBalloons; i++) {
+  const balloon = document.createElement("div");
+  balloon.classList.add("balloon");
+  balloon.style.left = Math.random() * 90 + "vw";
+  balloon.style.background = `radial-gradient(circle at 30% 30%, hsl(${Math.random()*360}, 100%, 75%), hsl(${Math.random()*360}, 80%, 55%))`;
+  balloon.addEventListener("click", popBalloon);
+  balloonContainer.appendChild(balloon);
+}
 
-    const sparkles = Array(100).fill().map(() => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2,
-        dx: Math.random() * 0.5,
-        dy: Math.random() * 0.5
-    }));
+function popBalloon(e) {
+  e.target.style.display = "none";
+  popped++;
+  if (popped === totalBalloons) {
+    document.querySelector("h1").classList.add("hidden");
+    startParty();
+  }
+}
 
-    function drawSparkles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "rgba(255,255,255,0.8)";
-        sparkles.forEach(s => {
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fill();
-            s.x += s.dx;
-            s.y += s.dy;
-            if (s.x > canvas.width) s.x = 0;
-            if (s.y > canvas.height) s.y = 0;
-        });
-        requestAnimationFrame(drawSparkles);
-    }
-    drawSparkles();
-
-    startBtn.addEventListener("click", () => {
-        startBtn.style.display = "none";
-        gameArea.style.display = "block";
-        createBalloons(5);
-    });
-
-    function createBalloons(count) {
-        gameArea.innerHTML = "";
-        for (let i = 0; i < count; i++) {
-            const balloon = document.createElement("div");
-            balloon.className = "balloon";
-            balloon.style.backgroundColor = getRandomColor();
-            balloon.addEventListener("click", popBalloon);
-            gameArea.appendChild(balloon);
-        }
-    }
-
-    function popBalloon(e) {
-        e.target.style.visibility = "hidden";
-        popped++;
-        if (popped === 5) {
-            gameOver();
-        }
-    }
-
-    function gameOver() {
-        gameArea.style.display = "none";
-        message.style.display = "block";
-        cake.style.display = "block";
-        confetti();
-        playMusic();
-    }
-
-    function playMusic() {
-        music.currentTime = 0;
-        music.play().catch(err => {
-            alert("Tap the screen once to enable sound 🎵");
-        });
-    }
-
-    function getRandomColor() {
-        const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#1dd1a1", "#ff9ff3"];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    function confetti() {
-        for (let i = 0; i < 100; i++) {
-            const conf = document.createElement("div");
-            conf.style.position = "absolute";
-            conf.style.width = "10px";
-            conf.style.height = "10px";
-            conf.style.background = getRandomColor();
-            conf.style.top = Math.random() * window.innerHeight + "px";
-            conf.style.left = Math.random() * window.innerWidth + "px";
-            conf.style.opacity = Math.random();
-            conf.style.animation = "fall 2s linear infinite";
-            conf.style.borderRadius = "50%";
-            document.body.appendChild(conf);
-            setTimeout(() => conf.remove(), 2000);
-        }
-    }
-
-    const style = document.createElement('style');
-    style.innerHTML = `
-        @keyframes fall {
-            0% {transform: translateY(0);}
-            100% {transform: translateY(100vh);}
-        }
-    `;
-    document.head.appendChild(style);
+function startParty() {
+  document.getElementById("birthday-content").classList.remove("hidden");
+  for (let i = 0; i < 150; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 60%)`;
+    confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
+    document.getElementById("confetti-container").appendChild(confetti);
+  }
+  document.getElementById("birthday-song").play().catch(() => {
+    console.log("Autoplay blocked. User interaction needed.");
+  });
+}
 </script>
+
 </body>
 </html>
