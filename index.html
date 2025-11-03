@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎉 Happy Birthday Jagriti (Jaggu)! 🎉</title>
+<title>🎉 Happy Birthday Jagriti! 🎉</title>
 <style>
   body {
     margin:0;
@@ -20,17 +20,12 @@
     margin-top:40px;
     animation:pop 1.5s ease-in-out infinite alternate;
   }
-  @keyframes pop{from{transform:scale(1);}to{transform:scale(1.08);} }
+  @keyframes pop{from{transform:scale(1);}to{transform:scale(1.05);} }
 
   .balloon{
-    width:70px;height:90px;border-radius:50%;
+    width:80px;height:100px;border-radius:50%;
     background:radial-gradient(circle at 30% 30%,#ff99cc,#ff4da6);
     position:absolute;cursor:pointer;
-    animation:float 7s ease-in infinite;
-  }
-  @keyframes float{
-    0%{transform:translateY(100vh) rotate(0deg);}
-    100%{transform:translateY(-120vh) rotate(360deg);}
   }
 
   .hidden{display:none;}
@@ -49,7 +44,7 @@
 
   .confetti{
     position:fixed;width:10px;height:10px;border-radius:50%;
-    top:0;left:0;opacity:0.8;animation:fall 3.5s linear infinite;
+    top:0;left:0;opacity:0.8;animation:fall 4s linear infinite;
   }
   @keyframes fall{
     0%{transform:translateY(0);}
@@ -72,7 +67,7 @@
 <div id="balloon-container"></div>
 
 <div id="birthday-content" class="hidden">
-  <h1>🎉 Happy Birthday Jagriti (Jaggu)! 🎉</h1>
+  <h1>🎉 Happy Birthday Jagriti! 🎉</h1>
   <p id="message">
     💖 Happy Birthday Jaggu and thank you hamesha sath dene ke liye aur help karne ke liye 💖<br><br>
     You’re one of the most amazing friends ever — always spreading happiness wherever you go 😄💫<br>
@@ -91,10 +86,12 @@ const totalBalloons=5;
 let popped=0;
 const song=document.getElementById("birthday-song");
 
+// Place still balloons randomly
 for(let i=0;i<totalBalloons;i++){
   const balloon=document.createElement("div");
   balloon.classList.add("balloon");
   balloon.style.left=Math.random()*90+"vw";
+  balloon.style.top=Math.random()*60+"vh";
   balloon.style.background=`radial-gradient(circle at 30% 30%, hsl(${Math.random()*360},100%,75%), hsl(${Math.random()*360},80%,55%))`;
   balloon.addEventListener("click",popBalloon);
   balloonContainer.appendChild(balloon);
@@ -113,19 +110,18 @@ function popBalloon(e){
 
 function startParty(){
   document.getElementById("birthday-content").classList.remove("hidden");
-  // lighter confetti: only 60 pieces instead of 180
-  for(let i=0;i<60;i++){
+  for(let i=0;i<40;i++){  // fewer confetti for smoothness
     const confetti=document.createElement("div");
     confetti.classList.add("confetti");
     confetti.style.left=Math.random()*100+"vw";
     confetti.style.backgroundColor=`hsl(${Math.random()*360},80%,60%)`;
-    confetti.style.animationDuration=2+Math.random()*3+"s";
+    confetti.style.animationDuration=3+Math.random()*2+"s";
     document.getElementById("confetti-container").appendChild(confetti);
   }
 }
 
 function createPoppers(x,y){
-  for(let i=0;i<6;i++){
+  for(let i=0;i<4;i++){
     const popper=document.createElement("div");
     popper.classList.add("popper");
     popper.textContent="🎉";
