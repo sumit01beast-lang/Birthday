@@ -6,143 +6,125 @@
 <title>🎉 Happy Birthday Jagriti (Jaggu)! 🎉</title>
 <style>
   body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Comic Sans MS', cursive;
-    background: linear-gradient(135deg, #ffd6ec, #c7e9ff);
-    overflow: hidden;
-    text-align: center;
+    margin:0;
+    padding:0;
+    font-family:'Comic Sans MS',cursive;
+    background:linear-gradient(135deg,#ffd6ec,#c7e9ff);
+    overflow:hidden;
+    text-align:center;
   }
 
-  h1 {
-    font-size: 2.5em;
-    color: #ff4da6;
-    margin-top: 40px;
-    animation: pop 1s ease-in-out infinite alternate;
+  h1{
+    font-size:2.3em;
+    color:#ff4da6;
+    margin-top:40px;
+    animation:pop 1s ease-in-out infinite alternate;
+  }
+  @keyframes pop{from{transform:scale(1);}to{transform:scale(1.1);}}
+
+  .balloon{
+    width:80px;height:100px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#ff99cc,#ff4da6);
+    position:absolute;cursor:pointer;
+    animation:float 6s ease-in infinite;
+  }
+  @keyframes float{
+    0%{transform:translateY(100vh) rotate(0deg);}
+    100%{transform:translateY(-120vh) rotate(360deg);}
   }
 
-  h2 {
-    color: #ff66b2;
-    font-size: 1.5em;
-  }
+  .hidden{display:none;}
 
-  @keyframes pop {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
+  #message{
+    font-size:1.3em;color:#ff4081;margin:20px;
+    animation:fadeIn 2s ease-in-out forwards,glow 1.5s infinite alternate;
   }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes glow{from{text-shadow:0 0 10px #ff7eb9,0 0 20px #ff4081;}to{text-shadow:0 0 20px #ff4081,0 0 40px #ff7eb9;}}
 
-  .balloon {
-    width: 80px;
-    height: 100px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ff99cc, #ff4da6);
-    position: absolute;
-    cursor: pointer;
-    animation: float 6s ease-in infinite;
+  .confetti{
+    position:fixed;width:12px;height:12px;border-radius:50%;
+    top:0;left:0;opacity:0.8;animation:fall 3s linear infinite;
   }
+  @keyframes fall{0%{transform:translateY(0);}100%{transform:translateY(100vh);}}
 
-  @keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); }
-    100% { transform: translateY(-120vh) rotate(360deg); }
+  .popper{
+    position:absolute;font-size:40px;
+    animation:burst 1s ease-in-out forwards;
   }
-
-  .hidden {
-    display: none;
-  }
-
-  #message {
-    font-size: 1.3em;
-    color: #ff4081;
-    margin: 20px;
-    animation: fadeIn 2s ease-in-out forwards;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  img {
-    width: 180px;
-    margin: 15px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  }
-
-  .confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background-color: #ffb6c1;
-    top: 0;
-    left: 0;
-    opacity: 0.8;
-    animation: fall 3s linear infinite;
-  }
-
-  @keyframes fall {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(100vh); }
+  @keyframes burst{
+    0%{transform:scale(0.5) rotate(0deg);opacity:1;}
+    100%{transform:scale(2) rotate(720deg);opacity:0;}
   }
 </style>
 </head>
 <body>
 
-<h1>🎈 Pop the Balloons to Start the Party 🎈</h1>
+<h1 id="introText">🎈 Pop the Balloons to Start the Party 🎈</h1>
 <div id="balloon-container"></div>
 
 <div id="birthday-content" class="hidden">
   <h1>🎉 Happy Birthday Jagriti (Jaggu)! 🎉</h1>
-  <h2>💖 You’re such a wonderful friend! 💖</h2>
-  <p id="message">Happy Birthday Jaggu and thank you hamesha sath dene ke liye aur help karne ke liye. Enjoy your life to the fullest! You truly make every moment brighter! 🌸🎂💞</p>
-  
-  <img src="https://raw.githubusercontent.com/sumit01beast-lang/Birthday/main/cake.png" alt="Cake">
-  <img src="https://raw.githubusercontent.com/sumit01beast-lang/Birthday/main/flowers.png" alt="Flowers">
-  <img src="https://raw.githubusercontent.com/sumit01beast-lang/Birthday/main/plush.png" alt="Plush">
-
+  <p id="message">
+    💖 Happy Birthday Jaggu and thank you hamesha sath dene ke liye aur help karne ke liye 💖<br><br>
+    You’re one of the most amazing friends ever — always spreading happiness wherever you go 😄💫<br>
+    Enjoy your life to the fullest, keep shining bright, and let’s make this year even more awesome! 🎂🥳🎈🎁💐
+  </p>
   <div id="confetti-container"></div>
 </div>
 
-<audio id="birthday-song" loop autoplay>
+<audio id="birthday-song" loop>
   <source src="https://cdn.pixabay.com/audio/2022/05/31/audio_6e79b7a8d2.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const balloonContainer = document.getElementById("balloon-container");
-const totalBalloons = 5;
-let popped = 0;
+const balloonContainer=document.getElementById("balloon-container");
+const totalBalloons=5;
+let popped=0;
+const song=document.getElementById("birthday-song");
 
-for (let i = 0; i < totalBalloons; i++) {
-  const balloon = document.createElement("div");
+for(let i=0;i<totalBalloons;i++){
+  const balloon=document.createElement("div");
   balloon.classList.add("balloon");
-  balloon.style.left = Math.random() * 90 + "vw";
-  balloon.style.background = `radial-gradient(circle at 30% 30%, hsl(${Math.random()*360}, 100%, 75%), hsl(${Math.random()*360}, 80%, 55%))`;
-  balloon.addEventListener("click", popBalloon);
+  balloon.style.left=Math.random()*90+"vw";
+  balloon.style.background=`radial-gradient(circle at 30% 30%, hsl(${Math.random()*360},100%,75%), hsl(${Math.random()*360},80%,55%))`;
+  balloon.addEventListener("click",popBalloon);
   balloonContainer.appendChild(balloon);
 }
 
-function popBalloon(e) {
-  e.target.style.display = "none";
+function popBalloon(e){
+  e.target.style.display="none";
   popped++;
-  if (popped === totalBalloons) {
-    document.querySelector("h1").classList.add("hidden");
+  createPoppers(e.pageX,e.pageY);
+  song.play(); // starts music after first tap
+  if(popped===totalBalloons){
+    document.getElementById("introText").classList.add("hidden");
     startParty();
   }
 }
 
-function startParty() {
+function startParty(){
   document.getElementById("birthday-content").classList.remove("hidden");
-  for (let i = 0; i < 150; i++) {
-    const confetti = document.createElement("div");
+  for(let i=0;i<180;i++){
+    const confetti=document.createElement("div");
     confetti.classList.add("confetti");
-    confetti.style.left = Math.random() * 100 + "vw";
-    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 60%)`;
-    confetti.style.animationDuration = 2 + Math.random() * 3 + "s";
+    confetti.style.left=Math.random()*100+"vw";
+    confetti.style.backgroundColor=`hsl(${Math.random()*360},80%,60%)`;
+    confetti.style.animationDuration=2+Math.random()*3+"s";
     document.getElementById("confetti-container").appendChild(confetti);
   }
-  document.getElementById("birthday-song").play().catch(() => {
-    console.log("Autoplay blocked. User interaction needed.");
-  });
+}
+
+function createPoppers(x,y){
+  for(let i=0;i<10;i++){
+    const popper=document.createElement("div");
+    popper.classList.add("popper");
+    popper.textContent="🎉";
+    popper.style.left=x+(Math.random()*100-50)+"px";
+    popper.style.top=y+(Math.random()*100-50)+"px";
+    document.body.appendChild(popper);
+    setTimeout(()=>popper.remove(),1000);
+  }
 }
 </script>
 
