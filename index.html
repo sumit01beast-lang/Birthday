@@ -1,229 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Jaggu 🎉</title>
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Comic Sans MS', cursive;
-    background: linear-gradient(135deg, #ffb6c1, #ffe4e1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-  }
-
-  h1 {
-    font-size: 2.2em;
-    color: #ff1493;
-    margin: 10px;
-  }
-
-  button {
-    background-color: #ff69b4;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    font-size: 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-
-  .balloon {
-    width: 60px;
-    height: 80px;
-    background: radial-gradient(circle at 30% 30%, #ff7eb9, #ff65a3);
-    border-radius: 50%;
-    position: absolute;
-    cursor: pointer;
-  }
-
-  #game {
-    display: none;
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  #message {
-    display: none;
-    font-size: 1.5em;
-    color: #ff1493;
-  }
+    body {
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        font-family: 'Comic Sans MS', cursive;
+        text-align: center;
+        overflow-x: hidden;
+    }
+    h1 {
+        color: #ff007f;
+        font-size: 2.5em;
+        margin-top: 50px;
+    }
+    #gameArea {
+        display: none;
+        margin-top: 30px;
+    }
+    .balloon {
+        width: 70px;
+        height: 90px;
+        background-color: pink;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 15px;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .balloon:hover {
+        transform: scale(1.1);
+    }
+    .balloon::after {
+        content: '';
+        width: 4px;
+        height: 20px;
+        background-color: #333;
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #message {
+        display: none;
+        color: #ff1493;
+        font-size: 1.6em;
+        padding: 20px;
+        margin-top: 30px;
+        animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+    #startBtn {
+        background-color: #ff4da6;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 25px;
+        font-size: 18px;
+        cursor: pointer;
+        margin-top: 40px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        transition: transform 0.2s;
+    }
+    #startBtn:hover {
+        transform: scale(1.1);
+    }
 </style>
 </head>
 <body>
-  <div id="intro">
-    <h1>🎉 Happy Birthday, Jaggu! 🎉</h1>
-    <p>Click below to start the fun party 🎈</p>
-    <button onclick="startParty()">Start Party</button>
-  </div>
 
-  <div id="game"></div>
+<h1>🎉 Happy Birthday, Jaggu! 🎉</h1>
+<p>Click below to start the party and pop the balloons 🎈</p>
+<button id="startBtn">Start Party 🎊</button>
 
-  <div id="message">
-    <h1>🎊 Happy Birthday Jaggu! 🎊</h1>
-    <p>Thank you hamesha sath dene ke liye or help karne ke liye 💖<br>
-    Enjoy your life to the fullest! 🌸💫</p>
-  </div>
+<div id="gameArea"></div>
+<div id="message">
+    💖 Happy Birthday Jaggu and thank you hamesha sath dene ke liye or help karne ke liye 💖<br>
+    🎂 Enjoy your life to the fullest! 🎂
+</div>
 
-  <audio id="music" src="https://cdn.pixabay.com/audio/2023/03/06/audio_41e4c4a1a3.mp3"></audio>
+<audio id="music" src="https://files.catbox.moe/3iklgq.mp3"></audio>
 
 <script>
-  let popped = 0;
+    const startBtn = document.getElementById("startBtn");
+    const gameArea = document.getElementById("gameArea");
+    const message = document.getElementById("message");
+    const music = document.getElementById("music");
 
-  function startParty() {
-    document.getElementById("intro").style.display = "none";
-    document.getElementById("game").style.display = "block";
-    createBalloons(5);
-  }
+    let popped = 0;
 
-  function createBalloons(num) {
-    const game = document.getElementById("game");
-    for (let i = 0; i < num; i++) {
-      const balloon = document.createElement("div");
-      balloon.className = "balloon";
-      balloon.style.left = Math.random() * 90 + "%";
-      balloon.style.top = Math.random() * 80 + "%";
-      balloon.onclick = popBalloon;
-      game.appendChild(balloon);
+    startBtn.addEventListener("click", () => {
+        startBtn.style.display = "none";
+        gameArea.style.display = "block";
+        createBalloons(5);
+    });
+
+    function createBalloons(count) {
+        gameArea.innerHTML = "";
+        for (let i = 0; i < count; i++) {
+            const balloon = document.createElement("div");
+            balloon.className = "balloon";
+            balloon.style.backgroundColor = getRandomColor();
+            balloon.addEventListener("click", popBalloon);
+            gameArea.appendChild(balloon);
+        }
     }
-  }
 
-  function popBalloon(e) {
-    e.target.remove();
-    popped++;
-    if (popped === 5) {
-      endGame();
+    function popBalloon(e) {
+        e.target.style.visibility = "hidden";
+        popped++;
+        if (popped === 5) {
+            gameOver();
+        }
     }
-  }
 
-  function endGame() {
-    document.getElementById("game").style.display = "none";
-    document.getElementById("message").style.display = "block";
-    document.getElementById("music").play();
-  }
+    function gameOver() {
+        gameArea.style.display = "none";
+        message.style.display = "block";
+        confetti();
+        music.play();
+    }
+
+    function getRandomColor() {
+        const colors = ["#ff6b6b", "#feca57", "#48dbfb", "#1dd1a1", "#ff9ff3"];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function confetti() {
+        for (let i = 0; i < 100; i++) {
+            const conf = document.createElement("div");
+            conf.style.position = "absolute";
+            conf.style.width = "10px";
+            conf.style.height = "10px";
+            conf.style.background = getRandomColor();
+            conf.style.top = Math.random() * window.innerHeight + "px";
+            conf.style.left = Math.random() * window.innerWidth + "px";
+            conf.style.opacity = Math.random();
+            conf.style.animation = "fall 2s linear infinite";
+            conf.style.borderRadius = "50%";
+            document.body.appendChild(conf);
+            setTimeout(() => conf.remove(), 2000);
+        }
+    }
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes fall {
+            0% {transform: translateY(0);}
+            100% {transform: translateY(100vh);}
+        }
+    `;
+    document.head.appendChild(style);
 </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Happy Birthday Jaggu 🎉</title>
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Comic Sans MS', cursive;
-    background: linear-gradient(135deg, #ffb6c1, #ffe4e1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-  }
 
-  h1 {
-    font-size: 2.2em;
-    color: #ff1493;
-    margin: 10px;
-  }
-
-  button {
-    background-color: #ff69b4;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    font-size: 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-
-  .balloon {
-    width: 60px;
-    height: 80px;
-    background: radial-gradient(circle at 30% 30%, #ff7eb9, #ff65a3);
-    border-radius: 50%;
-    position: absolute;
-    cursor: pointer;
-  }
-
-  #game {
-    display: none;
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  #message {
-    display: none;
-    font-size: 1.5em;
-    color: #ff1493;
-  }
-</style>
-</head>
-<body>
-  <div id="intro">
-    <h1>🎉 Happy Birthday, Jaggu! 🎉</h1>
-    <p>Click below to start the fun party 🎈</p>
-    <button onclick="startParty()">Start Party</button>
-  </div>
-
-  <div id="game"></div>
-
-  <div id="message">
-    <h1>🎊 Happy Birthday Jaggu! 🎊</h1>
-    <p>Thank you hamesha sath dene ke liye or help karne ke liye 💖<br>
-    Enjoy your life to the fullest! 🌸💫</p>
-  </div>
-
-  <audio id="music" src="https://cdn.pixabay.com/audio/2023/03/06/audio_41e4c4a1a3.mp3"></audio>
-
-<script>
-  let popped = 0;
-
-  function startParty() {
-    document.getElementById("intro").style.display = "none";
-    document.getElementById("game").style.display = "block";
-    createBalloons(5);
-  }
-
-  function createBalloons(num) {
-    const game = document.getElementById("game");
-    for (let i = 0; i < num; i++) {
-      const balloon = document.createElement("div");
-      balloon.className = "balloon";
-      balloon.style.left = Math.random() * 90 + "%";
-      balloon.style.top = Math.random() * 80 + "%";
-      balloon.onclick = popBalloon;
-      game.appendChild(balloon);
-    }
-  }
-
-  function popBalloon(e) {
-    e.target.remove();
-    popped++;
-    if (popped === 5) {
-      endGame();
-    }
-  }
-
-  function endGame() {
-    document.getElementById("game").style.display = "none";
-    document.getElementById("message").style.display = "block";
-    document.getElementById("music").play();
-  }
-</script>
 </body>
 </html>
