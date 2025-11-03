@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Happy Birthday Jaggu 🎉</title>
+<style>
+  :root{
+    --accent:#ff6fb5;
+    --accent2:#ffd24a;
+    --shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  html,body{height:100%;margin:0;font-family:"Poppins",sans-serif;}
+  body{
+    background: linear-gradient(135deg,#fff0f6 0%, #fffaf2 100%);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .app {
+    width:100%;max-width:900px;min-height:600px;
+    border-radius:24px;box-shadow:var(--shadow);
+    overflow:hidden;position:relative;
+    background:linear-gradient(180deg,#fff,#ffeaf6);
+  }
+  .page{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;transition:0.5s;}
+  .hidden{opacity:0;pointer-events:none;transform:translateY(20px);}
+  h1{color:#ff2e8a;font-size:2.5em;text-shadow:0 3px 8px rgba(255,111,181,0.2);}
+  .start-btn{margin-top:20px;padding:12px 28px;font-size:18px;border:none;border-radius:999px;background:linear-gradient(90deg,var(--accent),#ff8bd6);color:white;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(255,111,181,0.18);}
+  .game-area{width:100%;height:400px;max-width:800px;background:rgba(255,255,255,0.7);border-radius:18px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+  .balloon{position:absolute;font-size:30px;cursor:pointer;transition:transform .2s,opacity .3s;}
+  .balloon.pop{transform:scale(0);opacity:0;}
+  .next-btn{margin-top:20px;padding:10px 22px;border:none;border-radius:10px;background:linear-gradient(90deg,#ffd24a,#ffb347);font-weight:600;cursor:pointer;display:none;}
+  .wish-card{max-width:700px;background:#fff6f9;border-radius:18px;padding:30px;box-shadow:var(--shadow);}
+  .big-msg{font-size:30px;color:#ff2e8a;font-weight:700;}
+  .wish-msg{font-size:18px;color:#333;margin-top:10px;}
+  .confetti{position:absolute;inset:0;pointer-events:none;}
+  .confetti div{position:absolute;font-size:20px;animation:fall linear forwards;}
+  @keyframes fall{
+    0%{transform:translateY(-10vh) rotate(0);opacity:1;}
+    100%{transform:translateY(110vh) rotate(720deg);opacity:1;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Page 1 -->
+  <section class="page" id="welcome">
+    <h1>🎉 Happy Birthday, Jaggu! 🎉</h1>
+    <p>Click below to start the party and music 🎵</p>
+    <button class="start-btn" id="start">Start Party</button>
+  </section>
+
+  <!-- Page 2 -->
+  <section class="page hidden" id="game">
+    <h1 style="color:#4e9bff">🎈 Pop the Balloons 🎈</h1>
+    <p>Pop <strong>5</strong> balloons to unlock the surprise!</p>
+    <div class="game-area" id="gameArea"></div>
+    <p id="score">0 / 5 popped</p>
+    <button class="next-btn" id="next">Show Wish 🎁</button>
+  </section>
+
+  <!-- Page 3 -->
+  <section class="page hidden" id="wish">
+    <div class="wish-card">
+      <div class="big-msg">Happy Birthday, Jaggu! 💖</div>
+      <div class="wish-msg">"Happy Birthday Jaggu and thank you hamesha sath dene ke liye or help karne ke liye , Enjoy your life to fullest"</div>
+    </div>
+    <button class="start-btn" id="confettiBtn">Celebrate Again 🎊</button>
+  </section>
+
+  <div class="confetti" id="confetti"></div>
+</div>
+
+<!-- Background music -->
+<audio id="bgm" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_8826c7a505.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const welcome=document.getElementById('welcome');
+const game=document.getElementById('game');
+const wish=document.getElementById('wish');
+const startBtn=document.getElementById('start');
+const nextBtn=document.getElementById('next');
+const confettiLayer=document.getElementById('confetti');
+const confettiBtn=document.getElementById('confettiBtn');
+const audio=document.getElementById('bgm');
+const gameArea=document.getElementById('gameArea');
+const score=document.getElementById('score');
+let popped=0;
+const total=5;
+
+function show(page){[welcome,game,wish].forEach(p=>p.classList.add('hidden'));page.classList.remove('hidden');}
+
+function spawnConfetti(n=40){
+  const emojis=['🎉','🎊','✨','💖','🎈'];
+  for(let i=0;i<n;i++){
+    const c=document.createElement('div');
+    c.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    c.style.left=Math.random()*100+'%';
+    c.style.fontSize=(12+Math.random()*24)+'px';
+    c.style.animationDuration=(3+Math.random()*2)+'s';
+    confettiLayer.appendChild(c);
+    c.addEventListener('animationend',()=>c.remove());
+  }
+}
+
+function startGame(){
+  popped=0;score.textContent=`${popped} / ${total} popped`;
+  gameArea.innerHTML='';
+  for(let i=0;i<total+3;i++){
+    const b=document.createElement('div');
+    b.className='balloon';
+    b.textContent='🎈';
+    b.style.left=Math.random()*90+'%';
+    b.style.top=Math.random()*80+'%';
+    b.addEventListener('click',()=>{
+      if(!b.classList.contains('pop')){
+        b.classList.add('pop');
+        popped++;
+        spawnConfetti(6);
+        score.textContent=`${popped} / ${total} popped`;
+        if(popped>=total){nextBtn.style.display='inline-block';spawnConfetti(25);}
+      }
+    });
+    gameArea.appendChild(b);
+  }
+}
+
+startBtn.onclick=async()=>{
+  await audio.play().catch(()=>{});
+  show(game);
+  startGame();
+  spawnConfetti(30);
+};
+
+nextBtn.onclick=()=>{
+  show(wish);
+  spawnConfetti(50);
+};
+
+confettiBtn.onclick=()=>spawnConfetti(40);
+</script>
+</body>
+</html>
