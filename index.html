@@ -15,18 +15,18 @@
   }
 
   h1{
-    font-size:2.3em;
+    font-size:2.2em;
     color:#ff4da6;
     margin-top:40px;
-    animation:pop 1s ease-in-out infinite alternate;
+    animation:pop 1.5s ease-in-out infinite alternate;
   }
-  @keyframes pop{from{transform:scale(1);}to{transform:scale(1.1);}}
+  @keyframes pop{from{transform:scale(1);}to{transform:scale(1.08);} }
 
   .balloon{
-    width:80px;height:100px;border-radius:50%;
+    width:70px;height:90px;border-radius:50%;
     background:radial-gradient(circle at 30% 30%,#ff99cc,#ff4da6);
     position:absolute;cursor:pointer;
-    animation:float 6s ease-in infinite;
+    animation:float 7s ease-in infinite;
   }
   @keyframes float{
     0%{transform:translateY(100vh) rotate(0deg);}
@@ -36,25 +36,33 @@
   .hidden{display:none;}
 
   #message{
-    font-size:1.3em;color:#ff4081;margin:20px;
-    animation:fadeIn 2s ease-in-out forwards,glow 1.5s infinite alternate;
+    font-size:1.2em;
+    color:#ff4081;
+    margin:20px;
+    animation:fadeIn 1.5s ease-in-out forwards;
+    text-shadow:0 0 10px #ff99cc;
   }
-  @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-  @keyframes glow{from{text-shadow:0 0 10px #ff7eb9,0 0 20px #ff4081;}to{text-shadow:0 0 20px #ff4081,0 0 40px #ff7eb9;}}
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+  }
 
   .confetti{
-    position:fixed;width:12px;height:12px;border-radius:50%;
-    top:0;left:0;opacity:0.8;animation:fall 3s linear infinite;
+    position:fixed;width:10px;height:10px;border-radius:50%;
+    top:0;left:0;opacity:0.8;animation:fall 3.5s linear infinite;
   }
-  @keyframes fall{0%{transform:translateY(0);}100%{transform:translateY(100vh);}}
+  @keyframes fall{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(100vh);}
+  }
 
   .popper{
-    position:absolute;font-size:40px;
-    animation:burst 1s ease-in-out forwards;
+    position:absolute;font-size:30px;
+    animation:burst 0.8s ease-in-out forwards;
   }
   @keyframes burst{
     0%{transform:scale(0.5) rotate(0deg);opacity:1;}
-    100%{transform:scale(2) rotate(720deg);opacity:0;}
+    100%{transform:scale(1.5) rotate(360deg);opacity:0;}
   }
 </style>
 </head>
@@ -96,7 +104,7 @@ function popBalloon(e){
   e.target.style.display="none";
   popped++;
   createPoppers(e.pageX,e.pageY);
-  song.play(); // starts music after first tap
+  song.play(); // starts after first tap
   if(popped===totalBalloons){
     document.getElementById("introText").classList.add("hidden");
     startParty();
@@ -105,7 +113,8 @@ function popBalloon(e){
 
 function startParty(){
   document.getElementById("birthday-content").classList.remove("hidden");
-  for(let i=0;i<180;i++){
+  // lighter confetti: only 60 pieces instead of 180
+  for(let i=0;i<60;i++){
     const confetti=document.createElement("div");
     confetti.classList.add("confetti");
     confetti.style.left=Math.random()*100+"vw";
@@ -116,14 +125,14 @@ function startParty(){
 }
 
 function createPoppers(x,y){
-  for(let i=0;i<10;i++){
+  for(let i=0;i<6;i++){
     const popper=document.createElement("div");
     popper.classList.add("popper");
     popper.textContent="🎉";
-    popper.style.left=x+(Math.random()*100-50)+"px";
-    popper.style.top=y+(Math.random()*100-50)+"px";
+    popper.style.left=x+(Math.random()*80-40)+"px";
+    popper.style.top=y+(Math.random()*80-40)+"px";
     document.body.appendChild(popper);
-    setTimeout(()=>popper.remove(),1000);
+    setTimeout(()=>popper.remove(),800);
   }
 }
 </script>
